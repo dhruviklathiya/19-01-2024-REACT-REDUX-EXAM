@@ -102,3 +102,20 @@ body {
     padding: 40px 15px 15px 15px;
   }
 }
+
+h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  background: -webkit-linear-gradient(90deg, #0cbaba, #380036);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.h2_wrap {
+  height: 60px;
+  width: 100%;
+  background-color: white;
+}

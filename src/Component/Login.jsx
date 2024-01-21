@@ -27,28 +27,23 @@ const Login = () => {
             password: password.current.value,
             role: role.current.value,
         };
-
-        console.log(input);
         // Check if input matches any object in the stored data
         const isMatch = abc.profile_data.some(obj => areObjectsEqual(obj, input));
-
         if (isMatch) {
+            Cookies.set("User", input.userName)
+            Cookies.set("Password", input.password)
+            Cookies.set("Role", input.role)
             Swal.fire({
                 title: "Login successfully !",
                 text: "You clicked the button!",
                 icon: "success"
             })
-            Cookies.set("User", input.userName)
-            Cookies.set("Password", input.password)
-            Cookies.set("Role", input.role)
-            window.location.href = "http://localhost:3000/dashboard"
-            // Perform additional actions for successful login
+            setTimeout(() => { window.location.href = "http://localhost:3000/dashboard" }, 1000)
         } else {
             Swal.fire({
                 icon: "Wrong username or password",
-                title: "Oops...",
-                text: "Something went wrong!",
-                footer: '<a href="#">Why do I have this issue?</a>'
+                title: "Log in failed",
+                text: "Username or password incorrect!",
             })
         }
     };
@@ -61,13 +56,11 @@ const Login = () => {
                 return false;
             }
         }
-
         for (let key in obj2) {
             if (obj2.hasOwnProperty(key) !== obj1.hasOwnProperty(key)) {
                 return false;
             }
         }
-
         return true;
     };
 
@@ -76,9 +69,10 @@ const Login = () => {
             <div className="wrapper">
                 <div class="logo">
                     <img src="https://www.freepnglogos.com/uploads/twitter-logo-png/twitter-bird-symbols-png-logo-0.png" alt="" />
+                    {/* <img src="https://www.freepnglogos.com/uploads/shopee-logo/shopee-circle-logo-design-shopping-bag-13.png" alt="" /> */}
                 </div>
                 <div class="text-center mt-4 name">
-                    Shop online
+                    Shoppee
                 </div>
                 {/* <form class="p-3 mt-3"> */}
                 <div class="form-field d-flex align-items-center">

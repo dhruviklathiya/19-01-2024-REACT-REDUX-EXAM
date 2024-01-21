@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import Swal from 'sweetalert2'
 
 const Dashboard = () => {
-    // let role = "admin"
     const role = Cookies.get("Role")
     let total = 0
     const product_name = useRef()
@@ -27,14 +26,15 @@ const Dashboard = () => {
             product_name: product_name.current.value,
             product_price: product_price.current.value,
         }
-        arr.push(input)
-        localStorage.setItem("detail", JSON.stringify(arr))
-        setdata([...arr])
-        Swal.fire({
-            title: "Item added successfully !",
-            text: "You clicked the button!",
-            icon: "success"
-        })
+        if (input.product_name && input.product_price) {
+            arr.push(input)
+            localStorage.setItem("detail", JSON.stringify(arr))
+            setdata([...arr])
+            Swal.fire({
+                title: "Item added successfully !",
+                icon: "success"
+            })
+        }
     }
 
     const delete_handler = (ind_) => {
@@ -43,7 +43,6 @@ const Dashboard = () => {
         setdata([...arr])
         Swal.fire({
             title: "Deleted successfully !",
-            text: "You clicked the button!",
             icon: "success"
         })
     }
@@ -58,14 +57,15 @@ const Dashboard = () => {
     }
 
     const update_handle = () => {
-        arr.splice(index, 1, view)
-        localStorage.setItem("detail", JSON.stringify(arr))
-        setdata([...arr])
-        Swal.fire({
-            title: "Updated successfully !",
-            text: "You clicked the button!",
-            icon: "success"
-        })
+        if (view.product_name && view.product_price) {
+            arr.splice(index, 1, view)
+            localStorage.setItem("detail", JSON.stringify(arr))
+            setdata([...arr])
+            Swal.fire({
+                title: "Updated successfully !",
+                icon: "success"
+            })
+        }
     }
 
     const cart_add = (val_, ind_) => {
@@ -74,7 +74,6 @@ const Dashboard = () => {
         setcart([...cart_arr])
         Swal.fire({
             title: "Item added to cart successfully !",
-            text: "You clicked the button!",
             icon: "success"
         })
     }
@@ -85,7 +84,6 @@ const Dashboard = () => {
         setcart([...cart_arr])
         Swal.fire({
             title: "Item removed from cart successfully !",
-            text: "You clicked the button!",
             icon: "success"
         })
     }
@@ -93,12 +91,12 @@ const Dashboard = () => {
     if (role === "admin") {
         return (
             <>
-                <div className='col-6 offset-3 py-3 border border-dark rounded-5 mb-5'>
+                <div className='col-6 offset-3 py-3 border border-dark rounded-5 mb-5 mt-5'>
                     <input className='form-control my-4' type="text" name='product_name' placeholder='Product name' ref={product_name} />
                     <input className='form-control my-4' type="number" name='product_price' placeholder='Product price' ref={product_price} />
                     <button className='d-block w-100 btn btn-outline-info' type='button' onClick={submit_handle}>Submit</button>
                 </div>
-                <div className='col-6 offset-3 py-3 border border-dark rounded-4'>
+                <div className='col-6 offset-3 py-3 border border-dark rounded-4 mb-5'>
                     <input type="text" className='form-control my-4' name='product_name' value={view.product_name} onChange={update_input_handler} />
                     <input type="number" className='form-control my-4' name='product_price' value={view.product_price} onChange={update_input_handler} />
                     <button type='button' className='d-block w-100 btn btn-outline-info' onClick={update_handle}>Update</button>
@@ -112,8 +110,8 @@ const Dashboard = () => {
                                         <div class="card">
                                             <div class="card-body">
                                                 <h5 class="card-title">{val_.product_name}</h5>
-                                                <h6 class="card-subtitle mb-2 text-muted">{val_.product_price}</h6>
-                                                <button className='btn btn-outline-info' onClick={() => delete_handler(ind_)}>Delete</button>
+                                                <h6 class="card-subtitle mb-2 text-muted">${val_.product_price}</h6>
+                                                <button className='btn btn-outline-info mr-3' onClick={() => delete_handler(ind_)}>Delete</button>
                                                 <button className='btn btn-outline-info' onClick={() => view_handler(ind_)}>View</button>
                                             </div>
                                         </div>
@@ -129,7 +127,7 @@ const Dashboard = () => {
     else {
         return (
             <>
-                <h1 align="center">=== === === Available products === === ===</h1>
+                <div className="h2_wrap"><h2 align="center"> Available products </h2></div>
                 <div className='d-flex flex-wrap'>
                     {
                         data?.map((val_, ind_) => {
@@ -149,7 +147,7 @@ const Dashboard = () => {
                         })
                     }
                 </div>
-                <h1 align="center">=== === === Cart === === ===</h1>
+                <div className="h2_wrap"><h2 align="center">Cart</h2></div>
                 <div className='d-flex flex-wrap'>
                     {
                         cart?.map((val_, ind_) => {
@@ -170,7 +168,7 @@ const Dashboard = () => {
                         })
                     }
                 </div>
-                <h1 align="center">Total: ${total}</h1>
+                <div className="h2_wrap"><h2 align="center">Total: ${total}</h2></div>
             </>
         )
     }
